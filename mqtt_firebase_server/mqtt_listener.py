@@ -9,31 +9,31 @@ cred = credentials.Certificate("serviceAccountKey.json")
 firebase_admin.initialize_app(cred)
 db = firestore.client()
 
-broker = "broker.mqtt.com"  # Địa chỉ MQTT broker
+broker = "mqtt.fuvitech.vn"  # Địa chỉ MQTT broker
 port = 1883
 topic = "blood_pressure/data"
 
 
 # Hàm callback khi kết nối thành công với broker
 def on_connect(client, userdata, flags, rc):
-    print("Kết nối MQTT thành công, code:", rc)
-    client.subscribe(topic)
+	print("Kết nối MQTT thành công, code:", rc)
+	client.subscribe(topic)
 
 
 # Hàm callback khi nhận được message từ broker
 def on_message(client, userdata, msg):
-    try:
-        data = json.loads(msg.payload.decode())
-        # Lưu dữ liệu vào Firestore trong collection "blood_pressure"
-        db.collection("blood_pressure").add(data)
-        print("Đã ghi dữ liệu vào Firebase:", data)
+	try:
+		data = json.loads(msg.payload.decode())
+		# Lưu dữ liệu vào Firestore trong collection "blood_pressure"
+		db.collection("blood_pressure").add(data)
+		print("Data was written into Firebase:", data)
 
-        # (Tùy chọn) Thêm logic kiểm tra ngưỡng bất thường
-        # if data["systolic"] > 140 or data["diastolic"] > 90:
-        #     # Gửi cảnh báo (Email, SMS, hoặc thông báo đẩy)
-        #     pass
-    except Exception as e:
-        print("Lỗi khi xử lý dữ liệu:", e)
+		# (Tùy chọn) Thêm logic kiểm tra ngưỡng bất thường
+		# if data["systolic"] > 140 or data["diastolic"] > 90:
+		#     # Gửi cảnh báo (Email, SMS, hoặc thông báo đẩy)
+		#     pass
+	except Exception as e:
+		print("Data error:", e)
 
 
 client = mqtt.Client("Firebase_Server")

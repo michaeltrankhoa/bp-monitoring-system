@@ -6,7 +6,7 @@ import random
 from datetime import datetime
 
 # MQTT broker configuration
-broker = "broker.mqtt.com"  # MQTT broker address
+broker = "mqtt.fuvitech.vn"  # MQTT broker address
 port = 1883
 topic = "blood_pressure/data"
 

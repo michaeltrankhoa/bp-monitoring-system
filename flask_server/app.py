@@ -12,15 +12,15 @@ db = firestore.client()
 
 @app.route('/')
 def index():
-    # Render giao diện chính qua template index.html
-    return render_template('index.html')
+	# Render index.html
+	return render_template('index.html')
 
 @app.route('/api/blood_pressure')
 def get_blood_pressure_data():
-    # Lấy dữ liệu từ collection "blood_pressure" trong Firestore
-    docs = db.collection("blood_pressure").stream()
-    data = [doc.to_dict() for doc in docs]
-    return jsonify(data)
+	# Get data from collection "blood_pressure" in Firestore
+	docs = db.collection("blood_pressure").stream()
+	data = [doc.to_dict() for doc in docs]
+	return jsonify(data)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+	app.run(host="103.155.161.239", port=5000, debug=True)
